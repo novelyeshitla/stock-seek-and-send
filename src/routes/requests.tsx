@@ -23,8 +23,9 @@ export const Route = createFileRoute("/requests")({
       },
     ],
   }),
-  component: Requests();
+  component: Requests,
 });
+
 
 function Requests() {
   const { requests, advance } = useRequests();
