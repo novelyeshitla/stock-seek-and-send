@@ -3,7 +3,7 @@ import { Mail, MapPin, Phone } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { materials, sites } from "@/lib/mock-data";
+import { STORE_TYPE_LABEL, materials, sites } from "@/lib/mock-data";
 
 export const Route = createFileRoute("/contacts")({
   head: () => ({
@@ -35,7 +35,9 @@ function Contacts() {
               <CardContent className="space-y-4 pt-6">
                 <div>
                   <p className="font-display text-xl font-bold">{site.manager}</p>
-                  <p className="text-sm text-muted-foreground">Store manager · {site.name}</p>
+                  <p className="text-sm text-muted-foreground">
+                    {STORE_TYPE_LABEL[site.type]} manager · {site.name}
+                  </p>
                 </div>
                 <div className="space-y-1 text-sm">
                   <p className="flex items-center gap-2">

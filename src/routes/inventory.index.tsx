@@ -13,7 +13,6 @@ import {
   materialsAtSite,
   reinforcementsAtSite,
   siteById,
-  sites,
   stockStatus,
   storesByType,
   totalAvailable,
