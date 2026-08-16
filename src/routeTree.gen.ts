@@ -11,7 +11,9 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ContactsRouteImport } from './routes/contacts'
+import { Route as RequestsRouteImport } from './routes/requests'
 import { Route as InventoryIndexRouteImport } from './routes/inventory.index'
+import { Route as InventoryMaterialIdRouteImport } from './routes/inventory.$materialId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -23,39 +25,64 @@ const ContactsRoute = ContactsRouteImport.update({
   path: '/contacts',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RequestsRoute = RequestsRouteImport.update({
+  id: '/requests',
+  path: '/requests',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const InventoryIndexRoute = InventoryIndexRouteImport.update({
   id: '/inventory/',
   path: '/inventory/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InventoryMaterialIdRoute = InventoryMaterialIdRouteImport.update({
+  id: '/inventory/$materialId',
+  path: '/inventory/$materialId',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/contacts': typeof ContactsRoute
+  '/requests': typeof RequestsRoute
+  '/inventory/$materialId': typeof InventoryMaterialIdRoute
   '/inventory/': typeof InventoryIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/contacts': typeof ContactsRoute
+  '/requests': typeof RequestsRoute
+  '/inventory/$materialId': typeof InventoryMaterialIdRoute
   '/inventory': typeof InventoryIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/contacts': typeof ContactsRoute
+  '/requests': typeof RequestsRoute
+  '/inventory/$materialId': typeof InventoryMaterialIdRoute
   '/inventory/': typeof InventoryIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/contacts' | '/inventory/'
+  fullPaths:
+    '/' | '/contacts' | '/requests' | '/inventory/$materialId' | '/inventory/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/contacts' | '/inventory'
-  id: '__root__' | '/' | '/contacts' | '/inventory/'
+  to: '/' | '/contacts' | '/requests' | '/inventory/$materialId' | '/inventory'
+  id:
+    | '__root__'
+    | '/'
+    | '/contacts'
+    | '/requests'
+    | '/inventory/$materialId'
+    | '/inventory/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ContactsRoute: typeof ContactsRoute
+  RequestsRoute: typeof RequestsRoute
+  InventoryMaterialIdRoute: typeof InventoryMaterialIdRoute
   InventoryIndexRoute: typeof InventoryIndexRoute
 }
 
@@ -75,11 +102,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/requests': {
+      id: '/requests'
+      path: '/requests'
+      fullPath: '/requests'
+      preLoaderRoute: typeof RequestsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/inventory/': {
       id: '/inventory/'
       path: '/inventory'
       fullPath: '/inventory/'
       preLoaderRoute: typeof InventoryIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/inventory/$materialId': {
+      id: '/inventory/$materialId'
+      path: '/inventory/$materialId'
+      fullPath: '/inventory/$materialId'
+      preLoaderRoute: typeof InventoryMaterialIdRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -88,6 +129,8 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ContactsRoute: ContactsRoute,
+  RequestsRoute: RequestsRoute,
+  InventoryMaterialIdRoute: InventoryMaterialIdRoute,
   InventoryIndexRoute: InventoryIndexRoute,
 }
 export const routeTree = rootRouteImport

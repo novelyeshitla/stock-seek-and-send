@@ -11,7 +11,7 @@ type NewRequest = {
   fromSiteId: string;
   toSiteId: string;
   quantity: number;
-  note?: string;
+  note?: string | undefined;
 };
 
 type Ctx = {
