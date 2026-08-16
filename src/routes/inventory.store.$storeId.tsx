@@ -53,6 +53,8 @@ function StoreInventory() {
 
   const items = materialsAtSite(store.id);
   const bars = reinforcementsAtSite(store.id);
+  const waste = wasteAtSite(store.id);
+
 
   const groupItems = (group: MaterialGroup) => items.filter((m) => m.group === group);
 
