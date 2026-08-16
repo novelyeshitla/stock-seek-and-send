@@ -453,3 +453,117 @@ export const stockStatus = (m: Material) => {
   if (available <= m.minLevel) return "low" as const;
   return "healthy" as const;
 };
+
+export type WasteKind = "unused" | "wasted";
+
+export const WASTE_LABEL: Record<WasteKind, string> = {
+  unused: "Unused / returnable",
+  wasted: "Wasted / unusable",
+};
+
+export type WasteRecord = {
+  id: string;
+  siteId: string;
+  itemName: string;
+  unit: string;
+  quantity: number;
+  kind: WasteKind;
+  reason: string;
+  reportedBy: string;
+  date: string;
+};
+
+export const wasteRecords: WasteRecord[] = [
+  {
+    id: "W-2101",
+    siteId: "s1",
+    itemName: "Portland Cement 50kg",
+    unit: "bags",
+    quantity: 34,
+    kind: "wasted",
+    reason: "Bags hardened after rain exposure on the slab deck.",
+    reportedBy: "Sara Bekele",
+    date: "2026-08-13",
+  },
+  {
+    id: "W-2098",
+    siteId: "s1",
+    itemName: "Timber Formwork Panel",
+    unit: "panels",
+    quantity: 22,
+    kind: "unused",
+    reason: "Left over after 3rd floor formwork — can be reused on next pour.",
+    reportedBy: "Foreman — Bole",
+    date: "2026-08-11",
+  },
+  {
+    id: "W-2094",
+    siteId: "s3",
+    itemName: "Waterproof Membrane Roll",
+    unit: "rolls",
+    quantity: 3,
+    kind: "wasted",
+    reason: "Rolls torn during handling, edges no longer sealable.",
+    reportedBy: "Meron Alemu",
+    date: "2026-08-09",
+  },
+  {
+    id: "W-2090",
+    siteId: "s3",
+    itemName: "Rebar Ø12mm off-cuts",
+    unit: "rods",
+    quantity: 48,
+    kind: "unused",
+    reason: "Short off-cuts above 1.5m — usable for stirrups.",
+    reportedBy: "Bar bender team",
+    date: "2026-08-08",
+  },
+  {
+    id: "W-2085",
+    siteId: "s2",
+    itemName: "Hollow Concrete Block 20cm",
+    unit: "pcs",
+    quantity: 180,
+    kind: "wasted",
+    reason: "Broken in transit from the super store.",
+    reportedBy: "Yonas Tesfaye",
+    date: "2026-08-06",
+  },
+  {
+    id: "W-2081",
+    siteId: "s2",
+    itemName: "A4 Copy Paper (Ream)",
+    unit: "reams",
+    quantity: 6,
+    kind: "unused",
+    reason: "Surplus after site office downsizing — return to super store.",
+    reportedBy: "Store Clerk — Adama",
+    date: "2026-08-05",
+  },
+  {
+    id: "W-2076",
+    siteId: "s4",
+    itemName: "Binding Wire 25kg",
+    unit: "coils",
+    quantity: 4,
+    kind: "wasted",
+    reason: "Rusted coils from old stock batch.",
+    reportedBy: "Abel Girma",
+    date: "2026-08-02",
+  },
+  {
+    id: "W-2072",
+    siteId: "s4",
+    itemName: "Scaffolding Frame 2m",
+    unit: "units",
+    quantity: 12,
+    kind: "unused",
+    reason: "Returned from Hawassa shed package, inspected and fit for reuse.",
+    reportedBy: "Store Clerk — Central",
+    date: "2026-07-30",
+  },
+];
+
+export const wasteAtSite = (siteId: string) => wasteRecords.filter((w) => w.siteId === siteId);
+export const wasteTotal = (kind: WasteKind, records: WasteRecord[] = wasteRecords) =>
+  records.filter((w) => w.kind === kind).reduce((sum, w) => sum + w.quantity, 0);
