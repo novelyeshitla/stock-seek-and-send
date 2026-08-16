@@ -6,7 +6,19 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { materials, siteById, stockStatus, totalAvailable } from "@/lib/mock-data";
+import {
+  GROUP_LABEL,
+  STORE_TYPE_LABEL,
+  materials,
+  materialsAtSite,
+  reinforcementsAtSite,
+  siteById,
+  sites,
+  stockStatus,
+  storesByType,
+  totalAvailable,
+  type StoreType,
+} from "@/lib/mock-data";
 
 export const Route = createFileRoute("/inventory/")({
   head: () => ({
@@ -44,7 +56,65 @@ function Inventory() {
   });
 
   return (
-    <AppShell title="Inventory" subtitle="Find a material, then see which site has it">
+    <AppShell title="Inventory" subtitle="Three stores — super, mini and site stores">
+      <div className="mb-8 space-y-6">
+        {(["super", "mini", "site"] as StoreType[]).map((type) => (
+          <section key={type}>
+            <h2 className="font-display mb-3 text-2xl font-bold tracking-wide uppercase">
+              {STORE_TYPE_LABEL[type]}
+              {type === "site" ? "s" : ""}
+            </h2>
+            <div className="grid gap-4 md:grid-cols-2">
+              {storesByType(type).map((store) => {
+                const items = materialsAtSite(store.id);
+                return (
+                  <Card key={store.id}>
+                    <CardContent className="space-y-3 pt-6">
+                      <div className="flex items-start justify-between gap-2">
+                        <div>
+                          <p className="font-display text-xl font-bold">{store.name}</p>
+                          <p className="text-xs text-muted-foreground">{store.city}</p>
+                        </div>
+                        <Badge variant="secondary">{STORE_TYPE_LABEL[store.type]}</Badge>
+                      </div>
+                      <p className="text-sm text-muted-foreground">{store.description}</p>
+                      <ul className="space-y-1 text-sm">
+                        <li className="flex justify-between">
+                          <span className="text-muted-foreground">{GROUP_LABEL.office}</span>
+                          <span>{items.filter((m) => m.group === "office").length} items</span>
+                        </li>
+                        <li className="flex justify-between">
+                          <span className="text-muted-foreground">{GROUP_LABEL.site}</span>
+                          <span>{items.filter((m) => m.group === "site").length} items</span>
+                        </li>
+                        <li className="flex justify-between">
+                          <span className="text-muted-foreground">Reinforcement sizes</span>
+                          <span>{reinforcementsAtSite(store.id).length}</span>
+                        </li>
+                      </ul>
+                      <div className="space-y-1 text-sm">
+                        <p className="font-medium">{store.manager}</p>
+                        <p className="text-muted-foreground">
+                          {store.phone} · {store.email}
+                        </p>
+                      </div>
+                      <Button asChild className="w-full">
+                        <Link to="/inventory/store/$storeId" params={{ storeId: store.id }}>
+                          Open store inventory
+                        </Link>
+                      </Button>
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>
+          </section>
+        ))}
+      </div>
+
+      <h2 className="font-display mb-3 text-2xl font-bold tracking-wide uppercase">
+        Search all stores
+      </h2>
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
         <div className="relative flex-1">
           <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -77,7 +147,7 @@ function Inventory() {
                 <div>
                   <p className="font-display text-xl font-bold">{m.name}</p>
                   <p className="text-xs text-muted-foreground">
-                    {m.sku} · {m.category}
+                        {m.sku} · {m.category} · {GROUP_LABEL[m.group]}
                   </p>
                 </div>
                 <Badge
