@@ -1,6 +1,16 @@
+export type StoreType = "super" | "mini" | "site";
+
+export const STORE_TYPE_LABEL: Record<StoreType, string> = {
+  super: "Super store",
+  mini: "Mini store",
+  site: "Site store",
+};
+
 export type Site = {
   id: string;
   name: string;
+  type: StoreType;
+  description: string;
   city: string;
   manager: string;
   phone: string;
@@ -13,9 +23,26 @@ export type Stock = {
   reserved: number;
 };
 
+export type MaterialGroup = "office" | "site";
+
+export const GROUP_LABEL: Record<MaterialGroup, string> = {
+  office: "Office accessories",
+  site: "Site accessories",
+};
+
+export type Reinforcement = {
+  id: string;
+  diameter: number;
+  grade: string;
+  length: number;
+  weightPerRod: number;
+  stock: Stock[];
+};
+
 export type Material = {
   id: string;
   name: string;
+  group: MaterialGroup;
   category: string;
   unit: string;
   sku: string;
@@ -47,7 +74,9 @@ export const REQUEST_FLOW: RequestStatus[] = [
 export const sites: Site[] = [
   {
     id: "s1",
-    name: "Bole Tower Project",
+    name: "Bole Tower Site Store",
+    type: "site",
+    description: "On-site store serving the Bole Tower high-rise build.",
     city: "Addis Ababa",
     manager: "Sara Bekele",
     phone: "+251 911 234 567",
@@ -55,7 +84,9 @@ export const sites: Site[] = [
   },
   {
     id: "s2",
-    name: "Adama Ring Road",
+    name: "Adama Mini Store",
+    type: "mini",
+    description: "Regional mini store feeding the Adama Ring Road works.",
     city: "Adama",
     manager: "Yonas Tesfaye",
     phone: "+251 912 887 145",
@@ -63,7 +94,9 @@ export const sites: Site[] = [
   },
   {
     id: "s3",
-    name: "Hawassa Industrial Shed",
+    name: "Hawassa Site Store",
+    type: "site",
+    description: "On-site store for the Hawassa industrial shed package.",
     city: "Hawassa",
     manager: "Meron Alemu",
     phone: "+251 913 550 902",
@@ -71,7 +104,9 @@ export const sites: Site[] = [
   },
   {
     id: "s4",
-    name: "Central Warehouse",
+    name: "Central Super Store",
+    type: "super",
+    description: "Main super store — bulk stock and all central procurement.",
     city: "Addis Ababa",
     manager: "Abel Girma",
     phone: "+251 914 010 778",
@@ -83,6 +118,7 @@ export const materials: Material[] = [
   {
     id: "m1",
     name: "Portland Cement 50kg",
+    group: "site",
     category: "Binders",
     unit: "bags",
     sku: "CEM-050",
@@ -96,6 +132,7 @@ export const materials: Material[] = [
   {
     id: "m2",
     name: "Rebar Ø12mm",
+    group: "site",
     category: "Steel",
     unit: "rods",
     sku: "RBR-012",
@@ -109,6 +146,7 @@ export const materials: Material[] = [
   {
     id: "m3",
     name: "Scaffolding Frame 2m",
+    group: "site",
     category: "Equipment",
     unit: "units",
     sku: "SCF-200",
@@ -121,6 +159,7 @@ export const materials: Material[] = [
   {
     id: "m4",
     name: "Hollow Concrete Block 20cm",
+    group: "site",
     category: "Masonry",
     unit: "pcs",
     sku: "HCB-200",
@@ -134,6 +173,7 @@ export const materials: Material[] = [
   {
     id: "m5",
     name: "Waterproof Membrane Roll",
+    group: "site",
     category: "Finishing",
     unit: "rolls",
     sku: "WPM-010",
@@ -146,6 +186,7 @@ export const materials: Material[] = [
   {
     id: "m6",
     name: "Diesel Generator 20kVA",
+    group: "site",
     category: "Equipment",
     unit: "units",
     sku: "GEN-020",
@@ -158,6 +199,7 @@ export const materials: Material[] = [
   {
     id: "m7",
     name: "Timber Formwork Panel",
+    group: "site",
     category: "Formwork",
     unit: "panels",
     sku: "TFP-120",
@@ -170,6 +212,7 @@ export const materials: Material[] = [
   {
     id: "m8",
     name: "Binding Wire 25kg",
+    group: "site",
     category: "Steel",
     unit: "coils",
     sku: "BWR-025",
