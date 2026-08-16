@@ -223,6 +223,178 @@ export const materials: Material[] = [
       { siteId: "s4", quantity: 130, reserved: 15 },
     ],
   },
+  {
+    id: "m9",
+    name: "A4 Copy Paper (Ream)",
+    group: "office",
+    category: "Stationery",
+    unit: "reams",
+    sku: "OFF-A4R",
+    minLevel: 40,
+    stock: [
+      { siteId: "s4", quantity: 220, reserved: 20 },
+      { siteId: "s2", quantity: 35, reserved: 5 },
+      { siteId: "s1", quantity: 18, reserved: 0 },
+    ],
+  },
+  {
+    id: "m10",
+    name: "Laser Printer Toner",
+    group: "office",
+    category: "IT & Printing",
+    unit: "cartridges",
+    sku: "OFF-TNR",
+    minLevel: 10,
+    stock: [
+      { siteId: "s4", quantity: 24, reserved: 2 },
+      { siteId: "s2", quantity: 6, reserved: 1 },
+    ],
+  },
+  {
+    id: "m11",
+    name: "Site Logbook / Register",
+    group: "office",
+    category: "Stationery",
+    unit: "books",
+    sku: "OFF-LOG",
+    minLevel: 25,
+    stock: [
+      { siteId: "s4", quantity: 90, reserved: 10 },
+      { siteId: "s1", quantity: 12, reserved: 2 },
+      { siteId: "s3", quantity: 9, reserved: 0 },
+    ],
+  },
+  {
+    id: "m12",
+    name: "Office Desk Chair",
+    group: "office",
+    category: "Furniture",
+    unit: "units",
+    sku: "OFF-CHR",
+    minLevel: 8,
+    stock: [
+      { siteId: "s4", quantity: 26, reserved: 4 },
+      { siteId: "s2", quantity: 7, reserved: 0 },
+    ],
+  },
+  {
+    id: "m13",
+    name: "Laptop (Site Engineer)",
+    group: "office",
+    category: "IT & Printing",
+    unit: "units",
+    sku: "OFF-LTP",
+    minLevel: 4,
+    stock: [
+      { siteId: "s4", quantity: 9, reserved: 2 },
+      { siteId: "s1", quantity: 3, reserved: 1 },
+    ],
+  },
+  {
+    id: "m14",
+    name: "Drawing Plotter Roll A1",
+    group: "office",
+    category: "IT & Printing",
+    unit: "rolls",
+    sku: "OFF-PLT",
+    minLevel: 15,
+    stock: [
+      { siteId: "s4", quantity: 40, reserved: 5 },
+      { siteId: "s3", quantity: 6, reserved: 1 },
+    ],
+  },
+];
+
+export const reinforcements: Reinforcement[] = [
+  {
+    id: "r6",
+    diameter: 6,
+    grade: "S-300",
+    length: 12,
+    weightPerRod: 2.66,
+    stock: [
+      { siteId: "s4", quantity: 1800, reserved: 200 },
+      { siteId: "s2", quantity: 420, reserved: 40 },
+      { siteId: "s1", quantity: 260, reserved: 20 },
+    ],
+  },
+  {
+    id: "r8",
+    diameter: 8,
+    grade: "S-400",
+    length: 12,
+    weightPerRod: 4.74,
+    stock: [
+      { siteId: "s4", quantity: 1450, reserved: 150 },
+      { siteId: "s2", quantity: 380, reserved: 30 },
+      { siteId: "s3", quantity: 190, reserved: 10 },
+    ],
+  },
+  {
+    id: "r10",
+    diameter: 10,
+    grade: "S-400",
+    length: 12,
+    weightPerRod: 7.4,
+    stock: [
+      { siteId: "s4", quantity: 1120, reserved: 120 },
+      { siteId: "s1", quantity: 340, reserved: 40 },
+      { siteId: "s3", quantity: 150, reserved: 0 },
+    ],
+  },
+  {
+    id: "r12",
+    diameter: 12,
+    grade: "S-400",
+    length: 12,
+    weightPerRod: 10.66,
+    stock: [
+      { siteId: "s4", quantity: 2200, reserved: 300 },
+      { siteId: "s1", quantity: 940, reserved: 120 },
+      { siteId: "s2", quantity: 210, reserved: 20 },
+    ],
+  },
+  {
+    id: "r14",
+    diameter: 14,
+    grade: "S-400",
+    length: 12,
+    weightPerRod: 14.5,
+    stock: [
+      { siteId: "s4", quantity: 860, reserved: 60 },
+      { siteId: "s3", quantity: 120, reserved: 10 },
+    ],
+  },
+  {
+    id: "r16",
+    diameter: 16,
+    grade: "S-400",
+    length: 12,
+    weightPerRod: 18.94,
+    stock: [
+      { siteId: "s4", quantity: 640, reserved: 80 },
+      { siteId: "s1", quantity: 180, reserved: 20 },
+    ],
+  },
+  {
+    id: "r20",
+    diameter: 20,
+    grade: "S-400",
+    length: 12,
+    weightPerRod: 29.6,
+    stock: [
+      { siteId: "s4", quantity: 300, reserved: 40 },
+      { siteId: "s2", quantity: 60, reserved: 0 },
+    ],
+  },
+  {
+    id: "r24",
+    diameter: 24,
+    grade: "S-400",
+    length: 12,
+    weightPerRod: 42.6,
+    stock: [{ siteId: "s4", quantity: 120, reserved: 10 }],
+  },
 ];
 
 export const initialRequests: MaterialRequest[] = [
@@ -264,6 +436,16 @@ export const materialById = (id: string) => materials.find((m) => m.id === id);
 
 export const totalAvailable = (m: Material) =>
   m.stock.reduce((sum, s) => sum + (s.quantity - s.reserved), 0);
+
+export const storesByType = (type: StoreType) => sites.filter((s) => s.type === type);
+export const materialsAtSite = (siteId: string) =>
+  materials.filter((m) => m.stock.some((s) => s.siteId === siteId));
+export const reinforcementsAtSite = (siteId: string) =>
+  reinforcements.filter((r) => r.stock.some((s) => s.siteId === siteId));
+export const availableAt = (stock: Stock[], siteId: string) => {
+  const row = stock.find((s) => s.siteId === siteId);
+  return row ? row.quantity - row.reserved : 0;
+};
 
 export const stockStatus = (m: Material) => {
   const available = totalAvailable(m);
