@@ -34,7 +34,7 @@ export type MaterialRequest = {
   status: RequestStatus;
   requestedBy: string;
   createdAt: string;
-  note?: string;
+  note?: string | undefined;
 };
 
 export const REQUEST_FLOW: RequestStatus[] = [
