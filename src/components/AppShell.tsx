@@ -1,13 +1,22 @@
 import { Link } from "@tanstack/react-router";
-import { LayoutDashboard, Package, ClipboardList, Phone, HardHat } from "lucide-react";
+import {
+  LayoutDashboard,
+  Package,
+  ClipboardList,
+  Phone,
+  HardHat,
+  Trash2,
+} from "lucide-react";
 import type { ReactNode } from "react";
 
 const nav = [
   { to: "/", label: "Dashboard", icon: LayoutDashboard },
   { to: "/inventory", label: "Inventory", icon: Package },
   { to: "/requests", label: "Requests", icon: ClipboardList },
+  { to: "/waste", label: "Unused & wasted", icon: Trash2 },
   { to: "/contacts", label: "Store managers", icon: Phone },
 ] as const;
+
 
 export function AppShell({
   title,
