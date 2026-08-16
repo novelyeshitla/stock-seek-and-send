@@ -7,13 +7,16 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   GROUP_LABEL,
   STORE_TYPE_LABEL,
+  WASTE_LABEL,
   availableAt,
   materialsAtSite,
   reinforcementsAtSite,
   siteById,
+  wasteAtSite,
   type Material,
   type MaterialGroup,
 } from "@/lib/mock-data";
+
 
 export const Route = createFileRoute("/inventory/store/$storeId")({
   head: () => ({
@@ -144,9 +147,60 @@ function StoreInventory() {
           ) : null}
         </section>
       ))}
+
+      <section className="mt-8">
+        <h2 className="font-display mb-3 text-2xl font-bold tracking-wide uppercase">
+          Unused & wasted materials
+        </h2>
+        {waste.length === 0 ? (
+          <p className="text-sm text-muted-foreground">
+            Nothing reported as unused or wasted in this store.
+          </p>
+        ) : (
+          <Card>
+            <CardContent className="overflow-x-auto pt-6">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-border text-left text-muted-foreground">
+                    <th className="pb-2 pr-4 font-medium">Item</th>
+                    <th className="pb-2 pr-4 font-medium">Qty</th>
+                    <th className="pb-2 pr-4 font-medium">Type</th>
+                    <th className="pb-2 pr-4 font-medium">Reason</th>
+                    <th className="pb-2 font-medium">Reported</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {waste.map((w) => (
+                    <tr key={w.id} className="border-b border-border/60 align-top last:border-0">
+                      <td className="py-2 pr-4 font-medium">{w.itemName}</td>
+                      <td className="py-2 pr-4 whitespace-nowrap">
+                        {w.quantity} {w.unit}
+                      </td>
+                      <td className="py-2 pr-4">
+                        <Badge variant={w.kind === "wasted" ? "destructive" : "secondary"}>
+                          {WASTE_LABEL[w.kind]}
+                        </Badge>
+                      </td>
+                      <td className="py-2 pr-4 text-muted-foreground">{w.reason}</td>
+                      <td className="py-2 whitespace-nowrap">
+                        {w.date}
+                        <p className="text-xs text-muted-foreground">{w.reportedBy}</p>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <Button asChild variant="ghost" size="sm" className="mt-3">
+                <Link to="/waste">View all unused & wasted</Link>
+              </Button>
+            </CardContent>
+          </Card>
+        )}
+      </section>
     </AppShell>
   );
 }
+
 
 function ItemGrid({ items, storeId }: { items: Material[]; storeId: string }) {
   if (items.length === 0) {
